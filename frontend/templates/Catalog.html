@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,6 +16,7 @@
     </style>
 </head>
 <body>
+        <a href="{% url 'Catalog' %}" class="btn btn-info">To DRF catalog</a>
         <div id="list-wrapper">
         </div>
     <!-- JavaScript Bundle with Popper -->
@@ -44,7 +44,6 @@
                               <h5 class="card-title">${product_list[i].name}</h5>
                               <p class="card-text">Author:-${product_list[i].author}<br> Created at: ${product_list[i].date_of_creation}</p>
                               <a href="#" class="btn btn-secondary">Edit</a>
-
                               <button style="margin-left: 110px" type="button" class="btn btn-primary">${product_list[i].price}$</button>
                             </div>
                         </div>

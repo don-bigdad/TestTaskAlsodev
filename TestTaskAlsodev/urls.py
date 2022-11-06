@@ -22,7 +22,7 @@ from productcatalog.views import Catalog, ProductUpdate, ProductDetail
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("",include("frontend.urls")),
-    path("catalog/",Catalog.as_view()),
+    path("catalog/",Catalog.as_view(),name="Catalog"),
     path("update/<int:pk>/", ProductUpdate.as_view()),
     path("detail/<int:pk>/", ProductDetail.as_view()),
 ]
