@@ -21,7 +21,7 @@
         <div id="list-wrapper">
         </div>
         <div class="card" style="width: 18rem; position:relative;margin: 20px">
-          <img style="height: 250px;width: 18rem" src="static\1200px-Plus_symbol.svg (1).png" class="card-img-top" alt="...">
+            <a href="{% url "append" %}"><img style="height: 250px;width: 18rem" src="static\1200px-Plus_symbol.svg (1).png"   class="card-img-top" alt="..."></a>
           <div class="card-body">
             <h5 style="text-align: center" class="card-title">Append you product</h5>
           </div>
@@ -49,9 +49,10 @@
                             <img style="height: 250px" src="${product_list[i].picture1}" class="card-img-top" alt="Prouct_image">
                             <div class="card-body">
                               <h5 class="card-title">${product_list[i].name}</h5>
-                              <p class="card-text">Author:-${product_list[i].author}<br> Created at: ${product_list[i].date_of_creation}</p>
+                              <p class="card-text">Author:${product_list[i].author}<br> Created at: ${product_list[i].date_of_creation}</p>
                                 <a href="" class="btn btn-secondary">Edit</a>
-                              <button style="margin-left: 110px" type="button" class="btn btn-primary">${product_list[i].price}$</button>
+                                <a href="" class="btn btn-danger">Delete</a>
+                              <button style="margin-left: 50px" type="button" class="btn btn-primary">${product_list[i].price}$</button>
                             </div>
                         </div>
                          `

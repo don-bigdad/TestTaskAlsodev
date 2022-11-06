@@ -12,6 +12,14 @@ class ProductUpdate(generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+class DeleteProduct(generics.DestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+class ProductAppend(generics.CreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
 class Catalog(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
