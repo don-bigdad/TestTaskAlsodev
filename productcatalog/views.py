@@ -34,7 +34,7 @@ def product_update(request, pk):
 
 
 @api_view(['POST'])
-def product_append(request):
+def product_create(request):
     serializer = ProductSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()

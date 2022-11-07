@@ -17,14 +17,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from productcatalog.views import Catalog, ProductDetail, product_append, delete_product, product_update
+from productcatalog.views import Catalog, ProductDetail, product_create, delete_product, product_update
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("",include("frontend.urls")),
     path("catalog/",Catalog.as_view(),name="Catalog"),
     path("delete/<int:pk>/",delete_product,name="Delete"),
-    path("append/",product_append,name="append"),
+    path("create/",product_create,name="append"),
     path("update/<int:pk>/", product_update,name="Product_Update"),
     path("detail/<int:pk>/", ProductDetail.as_view()),
 ]
