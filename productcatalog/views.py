@@ -2,26 +2,13 @@
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from .models import *
 
 from .serializers import ProductSerializer
 
 
-class ProductUpdate(generics.UpdateAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
 
-
-class DeleteProduct(generics.DestroyAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-
-
-# class ProductAppend(generics.CreateAPIView):
-#     queryset = Product.objects.all()
-#     serializer_class = ProductSerializer
 
 
 class Catalog(generics.ListCreateAPIView):
@@ -35,9 +22,29 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 @api_view(['POST'])
+def product_update(request, pk):
+    product = Product.objects.get(id=pk)
+    serializer = ProductSerializer(instance=product, data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
+
+
+
+@api_view(['POST'])
 def product_append(request):
     serializer = ProductSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
 
     return Response(Catalog)
+
+
+@api_view(['DELETE'])
+def delete_product(request, pk):
+    product = Product.objects.get(id=pk)
+    product.delete()
+
+    return Response('Item succsesfully delete!')

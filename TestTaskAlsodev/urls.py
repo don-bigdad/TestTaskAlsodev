@@ -17,17 +17,17 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from productcatalog.views import Catalog, ProductUpdate, ProductDetail, DeleteProduct, product_append
+from productcatalog.views import Catalog, ProductDetail, product_append, delete_product, product_update
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("",include("frontend.urls")),
     path("catalog/",Catalog.as_view(),name="Catalog"),
-    path("delete/",DeleteProduct.as_view(),name="Delete"),
+    path("delete/<int:pk>/",delete_product,name="Delete"),
     path("append/",product_append,name="append"),
-    path("update/<int:pk>/", ProductUpdate.as_view(),name="Product_Update"),
+    path("update/<int:pk>/", product_update,name="Product_Update"),
     path("detail/<int:pk>/", ProductDetail.as_view()),
 ]
 
 if settings.DEBUG:
-    urlpatterns +=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
