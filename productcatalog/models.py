@@ -6,7 +6,7 @@ from django.db import models
 class Product(models.Model):
     name = models.CharField(max_length=100,blank=True)
     price = models.IntegerField(blank=True)
-    picture = models.ImageField(upload_to="product/%Y-%m-%d")
+    picture = models.ImageField(upload_to="product/%Y-%m-%d",blank=True)
     author = models.CharField(max_length=50,blank=True)
     date_of_creation = models.DateTimeField(auto_now_add=True)
 

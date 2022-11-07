@@ -23,19 +23,19 @@
         <form method="post" id="form-wrapper">
         <div  class="card" style="width: 18rem; position:relative;margin: 20px">
            <img style="height: 250px; width: 18rem" src="static\1200px-Plus_symbol.svg (1).png" class="card-img-top" alt="...">
-               <input id="Picture" type="file">
+               <input id="Picture" name="Picture" type="file">
           <div class="card-body">
               <div>
                   <div style="width: 250px;margin: 5px" class="form-group">
-                    <input type="text" class="form-control" id="ProductName" placeholder="Input name of your product">
+                    <input type="text" class="form-control" id="ProductName" name="ProductName" placeholder="Input name of your product">
                   </div>
                   <div style="width: 200px;margin: 5px" class="form-group">
-                    <input type="text" class="form-control" id="Author" placeholder="author name">
+                    <input type="text" class="form-control" id="Author" name="Author" placeholder="author name">
                   </div>
                   <div style="width: 200px;margin: 5px" class="form-group">
-                      <input type="number" class="form-control" id="Price" placeholder="Price">
+                      <input type="number" class="form-control" name="Price" id="Price" placeholder="Price">
                   </div>
-                      <button type="submit" class="btn btn-primary">Submit</button>
+                      <button id="submit" type="submit" class="btn btn-primary">Submit</button>
              </div>
           </div>
         </div>
@@ -99,23 +99,30 @@
         }
         var form = document.getElementById('form-wrapper')
 		form.addEventListener('submit', function(e){
-			e.preventDefault()
+            e.preventDefault()
 			console.log('Form submitted')
 			var url = 'http://127.0.0.1:8000/catalog/'
-            var product_name = document.getElementById("ProductName").value
+            var name = document.getElementById("ProductName").value
             var author = document.getElementById("Author").value
             var price = document.getElementById("Price").value
-            var picture = document.getElementById("Picture").value
+            var picture = document.getElementById("Picture")
+            var date = Date().toLocaleString()
+            console.log(name)
+            console.log(author)
+            console.log(price)
+            console.log(picture)
+            console.log(date)
             fetch(url,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json",
                     "X-CSRFToken":csrftoken,
                 },
-                body:JSON.stringify({"name":product_name,
+                body:JSON.stringify({"name":name,
                     "price":price,
-                    "picture":picture,
+
                     "author":author,
+                    "date":date,
                 })
             }
             ).then(function(response){
