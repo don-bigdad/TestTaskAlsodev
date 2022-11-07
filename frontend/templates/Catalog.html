@@ -20,21 +20,58 @@
         <a style="height: 40px;width: 200px;margin: 20px" href="{% url 'Catalog' %}" class="btn btn-info">To DRF catalog</a>
         <div id="list-wrapper">
         </div>
-        <div class="card" style="width: 18rem; position:relative;margin: 20px">
-            <a href="{% url "append" %}"><img style="height: 250px;width: 18rem" src="static\1200px-Plus_symbol.svg (1).png"   class="card-img-top" alt="..."></a>
+        <form method="post" id="form-wrapper">
+        <div  class="card" style="width: 18rem; position:relative;margin: 20px">
+           <img style="height: 250px; width: 18rem" src="static\1200px-Plus_symbol.svg (1).png" class="card-img-top" alt="...">
+               <input id="Picture" type="file">
           <div class="card-body">
-            <h5 style="text-align: center" class="card-title">Append you product</h5>
+              <div>
+                  <div style="width: 250px;margin: 5px" class="form-group">
+                    <input type="text" class="form-control" id="ProductName" placeholder="Input name of your product">
+                  </div>
+                  <div style="width: 200px;margin: 5px" class="form-group">
+                    <input type="text" class="form-control" id="Author" placeholder="author name">
+                  </div>
+                  <div style="width: 200px;margin: 5px" class="form-group">
+                      <input type="number" class="form-control" id="Price" placeholder="Price">
+                  </div>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+             </div>
           </div>
         </div>
+       </form>
+</div>
     <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
-<script>
+    <script>
+
+
+        function getCookie(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = cookies[i].trim();
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+		var csrftoken = getCookie('csrftoken');
+
+
+
+
         buildList()
 
         function buildList(){
             var wrapper = document.getElementById('list-wrapper')
-
+            wrapper.innerHTML = ""
             var url = 'http://127.0.0.1:8000/catalog/'
 
             fetch(url)
@@ -46,7 +83,7 @@
                 for (var i in product_list){
                     var item = `
                          <div class="card" id="product_in_card_style-${i}" style="width: 18rem;margin: 20px;">
-                            <img style="height: 250px" src="${product_list[i].picture1}" class="card-img-top" alt="Prouct_image">
+                            <img style="height: 292px" src="${product_list[i].picture}" class="card-img-top" alt="Prouct_image">
                             <div class="card-body">
                               <h5 class="card-title">${product_list[i].name}</h5>
                               <p class="card-text">Author:${product_list[i].author}<br> Created at: ${product_list[i].date_of_creation}</p>
@@ -60,6 +97,31 @@
                 }
             })
         }
+        var form = document.getElementById('form-wrapper')
+		form.addEventListener('submit', function(e){
+			e.preventDefault()
+			console.log('Form submitted')
+			var url = 'http://127.0.0.1:8000/catalog/'
+            var product_name = document.getElementById("ProductName").value
+            var author = document.getElementById("Author").value
+            var price = document.getElementById("Price").value
+            var picture = document.getElementById("Picture").value
+            fetch(url,{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json",
+                    "X-CSRFToken":csrftoken,
+                },
+                body:JSON.stringify({"name":product_name,
+                    "price":price,
+                    "picture":picture,
+                    "author":author,
+                })
+            }
+            ).then(function(response){
+                buildList()
+            })
+       })
 
     </script>
 </body>
