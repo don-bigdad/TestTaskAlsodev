@@ -98,9 +98,7 @@
 
                 }
                 for (var i in product_list){
-                    var editBtn = document.getElementsByClassName('edit')[i]
                     var deleteBtn = document.getElementsByClassName('delete')[i]
-
                     deleteBtn.addEventListener('click',(function(item){
                         return function(){
                             deleteItem(item)
@@ -118,7 +116,7 @@
             var name = document.getElementById("ProductName").value
             var price = document.getElementById("Price").value
             var picture = document.getElementById("Picture").files[0]["name"]
-            console.log(picture)
+            {#console.log(picture)#}
             var author = document.getElementById("Author").value
             var date = Date().toLocaleString()
             fetch(url,{
@@ -129,7 +127,7 @@
             },
             body:JSON.stringify({"name":name,
                 "price":price,
-                {#"picture":picture,#}
+                "picture":"http://127.0.0.1:8000/media/product/" + picture,
                 "author":author,
                 "date":date,
             })
