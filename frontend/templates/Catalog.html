@@ -22,7 +22,7 @@
         <form method="post" id="form-wrapper" >
         <div  class="card" style="width: 18rem; position:relative;margin: 20px">
            <img style="height: 250px; width: 18rem" src="static\1200px-Plus_symbol.svg (1).png" class="card-img-top" alt="...">
-            <input id="PictureImage" name="Picture" type="file" accept="image/jpeg, image/png, image/jpg">
+            <input id="Picture" name="Picture" type="file" accept="image/jpeg, image/png, image/jpg">
           <div class="card-body">
               <div>
                   <div style="width: 250px;margin: 5px" class="form-group">
@@ -85,14 +85,12 @@
                 for (var i in product_list){
                     var item = `
                          <div class="card" id="product_in_card_style-${i}" style="width: 18rem;margin: 20px;">
-                            <div class="img__wrapper">${product_list[i].picture}</div>
                             <img style="height: 292px" src="${product_list[i].picture}" class="card-img-top" alt="Prouct_image">
                             <div class="card-body">
                               <h5 class="card-title">${product_list[i].name}</h5>
                               <p class="card-text">Author:${product_list[i].author}<br> Created at: ${product_list[i].date_of_creation}</p>
-                                <button href="" class="btn btn-secondary edit">Edit</button>
-                                <button  class="btn btn-danger delete">Delete</button>
-                              <button style="margin-left: 50px" type="button" class="btn btn-primary">${product_list[i].price}$</button>
+                                <button class="btn btn-danger delete">Delete</button>
+                              <button style="margin-left: 100px" type="button" class="btn btn-primary">${product_list[i].price}$</button>
                             </div>
                         </div>
                          `
@@ -103,13 +101,6 @@
                     var editBtn = document.getElementsByClassName('edit')[i]
                     var deleteBtn = document.getElementsByClassName('delete')[i]
 
-                    editBtn.addEventListener('click',(function(item){
-                        return function(){
-                            editItem(item)
-                        }
-                    })(product_list[i]))
-
-
                     deleteBtn.addEventListener('click',(function(item){
                         return function(){
                             deleteItem(item)
@@ -118,16 +109,15 @@
                 }
             })
         }
-        const ImageEndpoint = "http://127.0.0.1:8000/media/product/"
 
         var form = document.getElementById('form-wrapper')
 		form.addEventListener('submit', function(e){
             e.preventDefault()
 			console.log('Form submitted')
-			var url = 'http://127.0.0.1:8000/create/'
+			var url = 'http://127.0.0.1:8000/catalog/'
             var name = document.getElementById("ProductName").value
             var price = document.getElementById("Price").value
-            var picture =  document.getElementById("PictureImage").files[0]["name"]
+            var picture = document.getElementById("Picture").files[0]["name"]
             console.log(picture)
             var author = document.getElementById("Author").value
             var date = Date().toLocaleString()
@@ -139,7 +129,7 @@
             },
             body:JSON.stringify({"name":name,
                 "price":price,
-                "picture":picture,
+                {#"picture":picture,#}
                 "author":author,
                 "date":date,
             })
@@ -148,13 +138,9 @@
             document.getElementById('form-wrapper').reset()
         })
        })
-        function editItem(item){
-            console.log('Item clicked',item)
-        }
-
         function deleteItem(item){
             console.log('delete clicked',item)
-            fetch(`http://127.0.0.1:8000/delete/${item.id}`,{
+            fetch(`http://127.0.0.1:8000/catalog/${item.id}`,{
                 method:"DELETE",
                 headers:{
                     "Content-Type":"application/json",

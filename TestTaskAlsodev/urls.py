@@ -17,16 +17,18 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from productcatalog.views import Catalog, ProductDetail, product_create, delete_product, product_update
+from rest_framework.routers import DefaultRouter
+
+from productcatalog.views import ProductViewSet
+
+router = DefaultRouter()
+router.register(r"catalog",ProductViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("",include("frontend.urls")),
-    path("catalog/",Catalog.as_view(),name="Catalog"),
-    path("delete/<int:pk>/",delete_product,name="Delete"),
-    path("create/",product_create,name="append"),
-    path("update/<int:pk>/", product_update,name="Product_Update"),
-    path("detail/<int:pk>/", ProductDetail.as_view()),
+    path("",include(router.urls),name="Catalog")
+
 ]
 
 if settings.DEBUG:
